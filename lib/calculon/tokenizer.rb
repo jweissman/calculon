@@ -10,7 +10,9 @@ module Calculon
       until scanner.eos?
         if (num = scanner.scan(/\d+/))
           token_list << { number: num.to_i }
-        elsif (op = scanner.scan(/[-\+*\/^]/))
+        elsif (id = scanner.scan(/\w+/))
+          token_list << { id: id.to_s }
+        elsif (op = scanner.scan(/[-\+*\/^=]/))
           token_list << { op: operator_names[op.to_sym] }
         elsif (scanner.scan(/\(/))
           token_list << { parens: :left }
@@ -30,7 +32,8 @@ module Calculon
         :'-' => :sub,
         :'*' => :mult,
         :'/' => :div,
-        :'^' => :pow
+        :'^' => :pow,
+        :'=' => :eq,
       }
     end
   end

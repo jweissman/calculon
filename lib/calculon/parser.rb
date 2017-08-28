@@ -5,7 +5,17 @@ module Calculon
     end
 
     def tree
-      @ast ||= expression #(@input_tokens)
+      @ast ||= formula #(@input_tokens)
+    end
+
+    # def stmt_list
+
+    def formula
+      tree = expression
+      if peek && peek[:op] == :eq
+        tree = [ consume[:op], tree, expression ]
+      end
+      tree
     end
 
     def expression
@@ -41,6 +51,10 @@ module Calculon
         raise 'Unmatched parens' unless peek[:parens] == :right
         consume[:parens]
         [ :subexpr, subexpr ]
+      elsif peek && peek[:id]
+        consume[:id]
+      # else
+      #   raise "Expected #{peek} to be a number, left parens or id"
       end
     end
 

@@ -4,8 +4,10 @@ require 'calculon'
 
 describe Calculon do
   it 'tokenizes' do
-    expect(Calculon.tokenize("1+2/3*(4-5)^6")).to eq(
+    expect(Calculon.tokenize("y = 1+2/3*(4-5)^x")).to eq(
       [
+        { id: 'y' },
+        { op: :eq },
         { number: 1 },
         { op: :plus },
         { number: 2 },
@@ -18,7 +20,7 @@ describe Calculon do
         { number: 5 },
         { parens: :right },
         { op: :pow },
-        { number: 6 }
+        { id: 'x' }
       ]
     )
   end
@@ -32,15 +34,23 @@ describe Calculon do
 
     it 'terms' do
       tokens = Calculon.tokenize('2*2+1')
-      tree = Calculon.parse(tokens)
+      tree   = Calculon.parse(tokens)
       expect(tree).to eq( [:plus, [ :mult, 2, 2 ], 1])
     end
 
     it 'parens' do
       tokens = Calculon.tokenize('8*(4/2)')
-      tree = Calculon.parse(tokens)
+      tree   = Calculon.parse(tokens)
       expect(tree).to eq(
         [ :mult, 8, [ :subexpr, [:div, 4, 2]]]
+      )
+    end
+
+    it 'ids and integers' do
+      tokens = Calculon.tokenize('y=2*x')
+      tree   = Calculon.parse(tokens)
+      expect(tree).to eq(
+        [ :eq, 'y', [ :mult, 2, 'x' ]]
       )
     end
 
@@ -49,14 +59,14 @@ describe Calculon do
   context 'interpreting' do
     it 'computes' do
       tokens = Calculon.tokenize('1+2*3+1')
-      tree = Calculon.parse(tokens)
+      tree   = Calculon.parse(tokens)
       result = Calculon.interpret(tree)
       expect(result).to eq(8)
     end
 
     it 'handles parens' do
       tokens = Calculon.tokenize('(1+2)*(3+1)')
-      tree = Calculon.parse(tokens)
+      tree   = Calculon.parse(tokens)
       result = Calculon.interpret(tree)
       expect(result).to eq(12)
     end

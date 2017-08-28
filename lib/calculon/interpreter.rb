@@ -1,7 +1,8 @@
 module Calculon
   class Interpreter
-    def initialize(ast)
+    def initialize(ast) #, context: {})
       @ast = ast
+      # @context = context
     end
 
     def output(tree=@ast)
