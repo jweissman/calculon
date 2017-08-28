@@ -17,8 +17,16 @@ module Calculon
     end
 
     def term
-      tree = factor
+      tree = power
       while peek && (peek[:op] == :mult || peek[:op] == :div)
+        tree = [ consume[:op], tree, power ]
+      end
+      tree
+    end
+
+    def power
+      tree = factor
+      while peek && (peek[:op] == :pow)
         tree = [ consume[:op], tree, factor ]
       end
       tree
@@ -27,10 +35,12 @@ module Calculon
     def factor
       if peek && peek[:number]
         consume[:number]
-      # elsif peek && peek[:lparens]
-      #   consume[:lparens]
-      #   subexpr = expression
-      #   consume[:rparens]
+      elsif peek && peek[:parens] == :left
+        consume[:parens]
+        subexpr = expression
+        raise 'Unmatched parens' unless peek[:parens] == :right
+        consume[:parens]
+        [ :subexpr, subexpr ]
       end
     end
 

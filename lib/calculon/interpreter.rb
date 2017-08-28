@@ -23,6 +23,9 @@ module Calculon
       when :sub  then left_val - right_val
       when :div  then left_val / right_val
       when :mult then left_val * right_val
+      when :pow  then left_val ** right_val
+      when :subexpr then left_val
+      else raise "Unknown op #{op}"
       end
     end
   end

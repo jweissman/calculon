@@ -10,8 +10,12 @@ module Calculon
       until scanner.eos?
         if (num = scanner.scan(/\d+/))
           token_list << { number: num.to_i }
-        elsif (op = scanner.scan(/[-\+*\/]/))
+        elsif (op = scanner.scan(/[-\+*\/^]/))
           token_list << { op: operator_names[op.to_sym] }
+        elsif (scanner.scan(/\(/))
+          token_list << { parens: :left }
+        elsif (scanner.scan(/\)/))
+          token_list << { parens: :right }
         elsif (_space = scanner.scan(/\s/))
           # ignore
         else
@@ -25,7 +29,8 @@ module Calculon
       { :'+' => :plus,
         :'-' => :sub,
         :'*' => :mult,
-        :'/' => :div
+        :'/' => :div,
+        :'^' => :pow
       }
     end
   end

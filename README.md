@@ -8,9 +8,15 @@
 
 ## Description
 
-TODO: Description
+Tiny calculator lang
 
 ## Features
+
+  [x] Basic arithmetic
+  [x] Parens
+  [ ] Exponentiation
+  [ ] Variables
+  [ ] Functions
 
 ## Examples
 
