@@ -1,6 +1,6 @@
 name: calculon
-summary: "TODO: Summary"
-description: "TODO: Description"
+summary: "calculating"
+description: "recursive descent parsing for arithmetic expressions"
 license: MIT
 authors: Joseph Weissman
 email: jweissman1986@gmail.com
