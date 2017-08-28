@@ -14,8 +14,8 @@ module Calculon
     parser.tree
   end
 
-  def self.interpret(ast)
-    interpreter = Interpreter.new(ast)
+  def self.interpret(ast, ctx={})
+    interpreter = Interpreter.new(ast, context: ctx)
     interpreter.output
   end
 

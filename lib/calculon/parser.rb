@@ -5,10 +5,16 @@ module Calculon
     end
 
     def tree
-      @ast ||= formula #(@input_tokens)
+      @ast ||= stmt_list #(@input_tokens)
     end
 
-    # def stmt_list
+    def stmt_list
+      tree = formula
+      while peek && peek[:op] == :semi
+        tree = [ consume[:op], tree, formula ]
+      end
+      tree
+    end
 
     def formula
       tree = expression

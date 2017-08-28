@@ -4,8 +4,12 @@ require 'calculon'
 
 describe Calculon do
   it 'tokenizes' do
-    expect(Calculon.tokenize("y = 1+2/3*(4-5)^x")).to eq(
+    expect(Calculon.tokenize("x = 6; y = 1+2/3*(4-5)^x")).to eq(
       [
+        { id: 'x' },
+        { op: :eq },
+        { number: 6 },
+        { op: :semi },
         { id: 'y' },
         { op: :eq },
         { number: 1 },
@@ -70,6 +74,22 @@ describe Calculon do
       result = Calculon.interpret(tree)
       expect(result).to eq(12)
     end
+
+    it 'evaluates eqns' do
+      tokens = Calculon.tokenize('y=2*x')
+      tree   = Calculon.parse(tokens)
+      result = Calculon.interpret(tree, x: 2)
+      expect(result).to eq(4)
+    end
+
+    it 'evaluates lists of statements' do
+      tokens = Calculon.tokenize('2 + 4; 6 * 10; 5 - 4')
+      tree   = Calculon.parse(tokens)
+      result = Calculon.interpret(tree)
+
+      # only hand back result of last stmt
+      expect(result).to eq(1) #[6, 60, 1])
+    end
   end
 
   context 'evaluate' do
@@ -81,6 +101,11 @@ describe Calculon do
     it 'handles parens and exponents' do
       result = Calculon.evaluate('2 ^ (1 + 2)')
       expect(result).to eq(8)
+    end
+
+    it 'handles vars' do
+      result = Calculon.evaluate('a = 1; b = 2; b ^ (a * 2)')
+      expect(result).to eq(4) #[1,2,4])
     end
   end
 end

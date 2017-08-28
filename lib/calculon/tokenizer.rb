@@ -12,7 +12,7 @@ module Calculon
           token_list << { number: num.to_i }
         elsif (id = scanner.scan(/\w+/))
           token_list << { id: id.to_s }
-        elsif (op = scanner.scan(/[-\+*\/^=]/))
+        elsif (op = scanner.scan(/[-\+*\/^=;]/))
           token_list << { op: operator_names[op.to_sym] }
         elsif (scanner.scan(/\(/))
           token_list << { parens: :left }
@@ -34,6 +34,7 @@ module Calculon
         :'/' => :div,
         :'^' => :pow,
         :'=' => :eq,
+        :';' => :semi
       }
     end
   end
