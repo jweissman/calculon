@@ -12,6 +12,8 @@ module Calculon
           token_list << { number: num.to_i }
         elsif (op = scanner.scan(/[-\+*\/]/))
           token_list << { op: operator_names[op.to_sym] }
+        elsif (_space = scanner.scan(/\s/))
+          # ignore
         else
           raise "Could not parse '#{@input}' (at #{scanner.pos}: '#{@input[scanner.pos]}')"
         end

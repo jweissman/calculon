@@ -34,11 +34,18 @@ describe Calculon do
   end
 
   context 'interpreting' do
-    it 'evals' do
+    it 'computes' do
       tokens = Calculon.tokenize('1+2*3+1')
       tree = Calculon.parse(tokens)
       result = Calculon.interpret(tree)
       expect(result).to eq(8)
+    end
+  end
+
+  context 'evaluate' do
+    it 'chains ops' do
+      result = Calculon.evaluate('8 / 4 + 2 * 2')
+      expect(result).to eq(6)
     end
   end
 end

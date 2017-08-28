@@ -18,4 +18,10 @@ module Calculon
     interpreter = Interpreter.new(ast)
     interpreter.output
   end
+
+  def self.evaluate(str)
+    tokens = tokenize str
+    tree = parse tokens
+    interpret tree
+  end
 end
