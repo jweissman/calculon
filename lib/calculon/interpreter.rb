@@ -38,7 +38,7 @@ module Calculon
       when :mult then left_val * right_val
       when :pow  then left_val ** right_val
       when :eq   then
-        @context[left_val.to_sym] = right_val
+        @context[left.to_sym] = right_val
         # return right_val #{ left_val.to_sym => right_val } #@context.slice(left_val.to_sym)
       when :subexpr then left_val
       when :semi then
@@ -46,6 +46,11 @@ module Calculon
         # binding.pry
         # [ left_val, right_val ].flatten(1)
         right_val
+      when String then
+        # it's an id, just pull the val
+        @context[op.to_sym]
+      when nil then # no-op?? blank str may give this
+        "--NO OP--"
       else raise "Unknown op #{op}"
       end
     end

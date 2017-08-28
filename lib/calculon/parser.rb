@@ -59,8 +59,6 @@ module Calculon
         [ :subexpr, subexpr ]
       elsif peek && peek[:id]
         consume[:id]
-      # else
-      #   raise "Expected #{peek} to be a number, left parens or id"
       end
     end
 

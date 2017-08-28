@@ -105,7 +105,7 @@ describe Calculon do
 
     it 'handles vars' do
       result = Calculon.evaluate('a = 1; b = 2; b ^ (a * 2)')
-      expect(result).to eq(4) #[1,2,4])
+      expect(result).to eq(4)
     end
   end
 end

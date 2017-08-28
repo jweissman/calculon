@@ -20,8 +20,9 @@ module Calculon
   end
 
   def self.evaluate(str)
+    @env ||= {}
     tokens = tokenize str
     tree = parse tokens
-    interpret tree
+    interpret tree, @env
   end
 end
